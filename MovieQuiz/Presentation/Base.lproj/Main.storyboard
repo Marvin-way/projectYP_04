@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="20037" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="24412" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
     <device id="retina6_1" orientation="portrait" appearance="dark"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="20020"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="24405"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
@@ -15,9 +15,48 @@
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="detailDisclosure" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Iwf-yS-fMe">
+                                <rect key="frame" x="57" y="448" width="300" height="400"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="300" id="7Dt-2z-Wpb"/>
+                                    <constraint firstAttribute="height" constant="400" id="pK7-pm-fLb"/>
+                                </constraints>
+                                <buttonConfiguration key="configuration" style="plain" title="Tap me!" cornerStyle="dynamic" buttonSize="medium">
+                                    <backgroundConfiguration key="background" strokeWidth="400" strokeOutset="200">
+                                        <color key="backgroundColor" red="0.64955553369999997" green="0.76814138259999998" blue="0.89357517480000004" alpha="1" colorSpace="calibratedRGB"/>
+                                    </backgroundConfiguration>
+                                    <color key="baseForegroundColor" red="0.62239625610000004" green="0.2243771853" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                </buttonConfiguration>
+                                <connections>
+                                    <action selector="tapCount:" destination="BYZ-38-t0r" eventType="touchUpInside" id="F8W-pe-Zvp"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8U7-ZZ-KtS">
+                                <rect key="frame" x="107" y="153" width="200" height="150"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="150" id="F1M-m4-7o2"/>
+                                    <constraint firstAttribute="width" constant="200" id="xLn-hV-r6b"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="60"/>
+                                <color key="textColor" red="1" green="0.31070576560000002" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                        </subviews>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="8U7-ZZ-KtS" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="57" id="IIH-sz-ODk"/>
+                            <constraint firstItem="8U7-ZZ-KtS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="IhG-rb-xQk"/>
+                            <constraint firstItem="Iwf-yS-fMe" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="KY5-Nw-BeF"/>
+                            <constraint firstItem="Iwf-yS-fMe" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" constant="200" id="h0h-Bc-f3d"/>
+                            <constraint firstItem="8U7-ZZ-KtS" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="slW-Mo-qz7"/>
+                        </constraints>
                     </view>
+                    <connections>
+                        <outlet property="tapButton" destination="Iwf-yS-fMe" id="Fqo-Wi-c2T"/>
+                        <outlet property="tapLabel" destination="8U7-ZZ-KtS" id="qvU-Na-08h"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>

@@ -1,9 +1,20 @@
 import UIKit
 
 final class MovieQuizViewController: UIViewController {
+    @IBOutlet weak var tapButton: UIButton!
+    @IBOutlet weak var tapLabel: UILabel!
+    
+    var count = 0
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
+        tapLabel.text = "0"
+        tapButton.setTitle("TAP ME", for: .normal)
+        tapButton.setTitle("let me go", for: .highlighted)
+    }
+    @IBAction func tapCount(_ sender: Any) {
+        count += 1
+        tapLabel.text = "\(count)"
     }
 }
 

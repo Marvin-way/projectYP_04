@@ -1,21 +1,43 @@
 import UIKit
 
 final class MovieQuizViewController: UIViewController {
-    @IBOutlet weak var tapButton: UIButton!
-    @IBOutlet weak var tapLabel: UILabel!
+    @IBOutlet weak var calculationHistory: UITextView!
+    @IBOutlet weak var countLabel: UILabel!
     
     var count = 0
     // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
-        tapLabel.text = "0"
-        tapButton.setTitle("TAP ME", for: .normal)
-        tapButton.setTitle("let me go", for: .highlighted)
+        countLabel.text = "0"
+        calculationHistory.text = "История изменений:"
     }
-    @IBAction func tapCount(_ sender: Any) {
+    
+    func time() -> String{
+        let now = DateFormatter()
+        now.dateStyle = .short
+        now.timeStyle = .short
+        return now.string(from: Date())
+    }
+    @IBAction func buttonPlus(_ sender: Any) {
         count += 1
-        tapLabel.text = "\(count)"
+        countLabel.text = "\(count)"
+        calculationHistory.text += "\n\(time()) значение изменено на +1"
     }
+    @IBAction func buttonMinus(_ sender: Any) {
+        if (count != 0){
+            count -= 1
+            countLabel.text = "\(count)"
+            calculationHistory.text += "\n\(time()) значение изменено на -1"
+        } else {
+            calculationHistory.text += "\n\(time()) попытка уменьшить значение счётчика ниже 0"
+        }
+    }
+    
+    @IBAction func clearResult(_ sender: UIButton) {
+        countLabel.text = "0"
+        calculationHistory.text += "\n\(time()) значение сброшено"
+    }
+    
 }
 
 /*

@@ -100,12 +100,14 @@ final class MovieQuizViewController: UIViewController {
             self.showNextQuestionOrResults()
         }
     }
+    
     private func showCurrentQuestion() {
         let currentQuestion =
             questions[currentQuestionIndex]
         let step = convert(model: currentQuestion)
         show(quiz: step)
     }
+    
     private func convert(model: QuizQuestion) -> QuizStepViewModel {
         let questionStep = QuizStepViewModel(
             image: UIImage(named: model.image) ?? UIImage(),
@@ -114,11 +116,13 @@ final class MovieQuizViewController: UIViewController {
         )
         return questionStep
     }
+    
     private func show(quiz step: QuizStepViewModel) {
         imageView.image = step.image
         textLabel.text = step.question
         counterLabel.text = step.questionNumber
     }
+    
     private func showNextQuestionOrResults() {
         if currentQuestionIndex == questions.count - 1 {
             let text = "Правильных ответов: \(correctAnswers)"

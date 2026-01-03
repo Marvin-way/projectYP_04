@@ -61,6 +61,7 @@ final class MovieQuizViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         showCurrentQuestion()
+        showStartWindow()
     }
     
     @IBOutlet private var imageView: UIImageView!
@@ -88,6 +89,10 @@ final class MovieQuizViewController: UIViewController {
         showAnswerResult(
             isCorrect: givenAnswer == currentQuestion.correctAnswer
         )
+    }
+    
+    private func showStartWindow() {
+        imageView.layer.cornerRadius = 20
     }
     
     private func showAnswerResult(isCorrect: Bool) {

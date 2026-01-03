@@ -60,8 +60,8 @@ final class MovieQuizViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        setupImageView()
         showCurrentQuestion()
-        showStartWindow()
     }
     
     @IBOutlet private var imageView: UIImageView!
@@ -78,8 +78,6 @@ final class MovieQuizViewController: UIViewController {
         showAnswerResult(
             isCorrect: givenAnswer == currentQuestion.correctAnswer
         )
-        
-        
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
@@ -91,14 +89,14 @@ final class MovieQuizViewController: UIViewController {
         )
     }
     
-    private func showStartWindow() {
+    private func setupImageView() {
         imageView.layer.cornerRadius = 20
+        imageView.layer.masksToBounds = true
     }
     
     private func showAnswerResult(isCorrect: Bool) {
         yesButton.isEnabled = false
         noButton.isEnabled = false
-        imageView.layer.masksToBounds = true
         imageView.layer.borderWidth = 8
         imageView.layer.cornerRadius = 20
         if isCorrect == true {

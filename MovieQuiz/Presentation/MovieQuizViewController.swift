@@ -2,19 +2,21 @@ import UIKit
 
 final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     
-    
+    private var alertPresenter: AlertPresenter?
     private let questionsAmount: Int = 10
     private let questionFactory: QuestionFactoryProtocol = QuestionFactory()
     private var currentQuestion: QuizQuestion?
-    
     private var currentQuestionIndex = 0
     private var correctAnswers = 0
+    private var statisticService: StatisticServiceProtocol = StatisticService()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         setupImageView()
+        alertPresenter = AlertPresenter(viewController: self)
         questionFactory.setup(delegate: self)
         questionFactory.requestNextQuestion()
+        statisticService = StatisticService()
     }
     
     // MARK: - QuestionFactoryDelegate
@@ -116,7 +118,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
                 text: text,
                 buttonText: "Сыграть ещё раз"
             )
+            statisticService.store(correct: correctAnswers, total: questionsAmount)
             show(quiz: viewModel)
+            return
         } else {
             currentQuestionIndex += 1
         }
@@ -124,22 +128,25 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     private func show(quiz result: QuizResultsViewModel) {
-        let alert = UIAlertController(
-            title: result.title,
-            message: result.text,
-            preferredStyle: .alert
-        )
+        let bestGame = statisticService.bestGame
+        let bestGameDate = bestGame.date.dateTimeString
+        let accuracy = "\(String(format: "%.2f", statisticService.totalAccuracy))%"
         
-        let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-            guard let self = self else {return}
+        
+        let message: String = "Ваш результат: \(correctAnswers)/\(questionsAmount)\nКоличество сыгранных квизов: \(statisticService.gamesCount)\nРекорд: \(bestGame.correct)/\(bestGame.total) \(bestGameDate)\nСредняя точность: \(accuracy)"
+        
+        let model = AlertModel(
+            title: result.title,
+            message: message,
+            buttonText: result.buttonText
+        ) { [weak self] in
+            guard let self else { return }
             self.currentQuestionIndex = 0
             self.correctAnswers = 0
-            
             self.questionFactory.requestNextQuestion()
         }
-        alert.addAction(action)
-        
-        self.present(alert, animated: true, completion: nil)
+
+        alertPresenter?.show(model: model)
     }
 }
 

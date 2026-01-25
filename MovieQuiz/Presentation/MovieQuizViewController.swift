@@ -23,6 +23,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         showLoadingIndicator()
         statisticService = StatisticService()
         questionFactory.loadData()
+        presenter.viewController = self
     }
     func didLoadDataFromServer() {
         hideLoadingIndicator()
@@ -49,9 +50,6 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
-    
-    @IBOutlet weak private var noButton: UIButton!
-    @IBOutlet weak private var yesButton: UIButton!
     
     private func showLoadingIndicator() {
         activityIndicator.isHidden = false
@@ -81,25 +79,13 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
     }
     
     @IBAction private func yesButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = true
-        
-        showAnswerResult(
-            isCorrect: givenAnswer == currentQuestion.correctAnswer
-        )
+        presenter.currentQuestion = currentQuestion
+        presenter.yesButtonClicked()
     }
     
     @IBAction private func noButtonClicked(_ sender: UIButton) {
-        guard let currentQuestion = currentQuestion else {
-            return
-        }
-        let givenAnswer = false
-        
-        showAnswerResult(
-            isCorrect: givenAnswer == currentQuestion.correctAnswer
-        )
+        presenter.currentQuestion = currentQuestion
+        presenter.noButtonClicked()
     }
     
     private func setupImageView() {
@@ -107,9 +93,9 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         imageView.layer.masksToBounds = true
     }
     
-    private func showAnswerResult(isCorrect: Bool) {
-        yesButton.isEnabled = false
-        noButton.isEnabled = false
+    func showAnswerResult(isCorrect: Bool) {
+//        yesButton.isEnabled = false
+//        noButton.isEnabled = false
         imageView.layer.borderWidth = 8
         imageView.layer.cornerRadius = 20
         if isCorrect == true {
@@ -122,8 +108,8 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
             guard let self = self else { return }
             self.showNextQuestionOrResults()
             self.imageView.layer.borderWidth = 0
-            self.yesButton.isEnabled = true
-            self.noButton.isEnabled = true
+//            self.yesButton.isEnabled = true
+//            self.noButton.isEnabled = true
         }
     }
     

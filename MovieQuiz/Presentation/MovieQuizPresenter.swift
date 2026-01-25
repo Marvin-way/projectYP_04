@@ -27,9 +27,9 @@ final class MovieQuizPresenter {
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(
-            image: model.image, // <- здесь убрали преобразование в UIImage и храним «сырые» данные
+            image: model.image,
             question: model.text,
-            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)" // ОШИБКА: `currentQuestionIndex` и `questionsAmount` неопределены
+            questionNumber: "\(currentQuestionIndex + 1)/\(questionsAmount)"
         )
     }
 }

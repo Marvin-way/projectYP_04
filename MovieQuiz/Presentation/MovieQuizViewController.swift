@@ -131,7 +131,7 @@ final class MovieQuizViewController: UIViewController, QuestionFactoryDelegate {
         guard let currentQuestion = currentQuestion else {
             return
         }
-        let step = presenter.convert(model: currentQuestion) //presentor. - добавлено мной
+        let step = presenter.convert(model: currentQuestion)
         show(quiz: step)
     }
     

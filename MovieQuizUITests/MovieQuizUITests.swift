@@ -8,7 +8,6 @@
 import XCTest
 
 class MovieQuizUITests: XCTestCase {
-    // swiftlint:disable:next implicitly_unwrapped_optional
     var app: XCUIApplication!
     
     override func setUpWithError() throws {
@@ -16,9 +15,6 @@ class MovieQuizUITests: XCTestCase {
         
         app = XCUIApplication()
         app.launch()
-        
-        // это специальная настройка для тестов: если один тест не прошёл,
-        // то следующие тесты запускаться не будут; и правда, зачем ждать?
         continueAfterFailure = false
     }
     override func tearDownWithError() throws {
@@ -44,7 +40,9 @@ class MovieQuizUITests: XCTestCase {
         let indexLabel = app.staticTexts["Index"]
         XCTAssertEqual(indexLabel.label, "2/10")
     }
-    
+    func testScreenCast() throws {
+            
+        }
     func testNoButton() {
         sleep(3)
         
@@ -60,7 +58,7 @@ class MovieQuizUITests: XCTestCase {
         let indexLabel = app.staticTexts["Index"]
        
         XCTAssertNotEqual(firstPosterData, secondPosterData)
-        XCTAssertEqual(indexLabel.label, "1/10")
+        XCTAssertEqual(indexLabel.label, "2/10")
     }
     
     func testGameFinish() {

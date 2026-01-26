@@ -8,13 +8,21 @@
 import Foundation
 import UIKit
 
-final class MovieQuizPresenter {
-    var correctAnswers = 0
-    var questionFactory: QuestionFactoryProtocol!
+final class MovieQuizPresenter: QuestionFactoryDelegate {
+    
+    var correctAnswers: Int = 0
+    private var questionFactory: QuestionFactoryProtocol?
     let questionsAmount: Int = 10
     private var currentQuestionIndex: Int = 0
     var currentQuestion: QuizQuestion?
-    weak var viewController: MovieQuizViewController?
+    private weak var viewController: MovieQuizViewController?
+    
+    init(viewController: MovieQuizViewController) {
+            self.viewController = viewController
+            questionFactory = QuestionFactory(moviesLoader: MoviesLoader(), delegate: self)
+            questionFactory?.loadData()
+            viewController.showLoadingIndicator()
+        }
     
     func yesButtonClicked() {
         didAnswer(isYes: true)
@@ -35,7 +43,11 @@ final class MovieQuizPresenter {
                 isCorrect: givenAnswer == currentQuestion.correctAnswer
             )
     }
-    
+    func restartGame() {
+            currentQuestionIndex = 0
+            correctAnswers = 0
+            questionFactory?.requestNextQuestion()
+        }
     func isLastQuestion() -> Bool {
         currentQuestionIndex == questionsAmount - 1
     }
@@ -47,16 +59,6 @@ final class MovieQuizPresenter {
     func switchToNextQuestion() {
         currentQuestionIndex += 1
     }
-    
-    func didRecieveNextQuestion(question: QuizQuestion?) {
-            guard let question = question else { return }
-            
-            currentQuestion = question
-            let viewModel = convert(model: question)
-            DispatchQueue.main.async { [weak self] in
-                self?.viewController?.show(quiz: viewModel)
-            }
-        }
     
     func convert(model: QuizQuestion) -> QuizStepViewModel {
         QuizStepViewModel(
@@ -76,12 +78,32 @@ final class MovieQuizPresenter {
                 text: text,
                 buttonText: "Сыграть ещё раз"
             )
-//            statisticService.store(correct: correctAnswers, total: self.questionsAmount)
             viewController?.show(quiz: viewModel)
             return
         } else {
             self.switchToNextQuestion()
         }
-        questionFactory.requestNextQuestion()
+        questionFactory?.requestNextQuestion()
+    }
+    func didLoadDataFromServer() {
+        viewController?.hideLoadingIndicator()
+        questionFactory?.requestNextQuestion()
+    }
+    
+    func didFailToLoadData(with error: Error) {
+        let message = error.localizedDescription
+        viewController?.showNetworkError(message: message)
+    }
+    
+    func didReceiveNextQuestion(question: QuizQuestion?) {
+        guard let question = question else {
+            return
+        }
+        
+        currentQuestion = question
+        let viewModel = convert(model: question)
+        DispatchQueue.main.async { [weak self] in
+            self?.viewController?.show(quiz: viewModel)
+        }
     }
 }

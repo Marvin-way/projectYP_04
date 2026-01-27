@@ -39,6 +39,7 @@
                                             </label>
                                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="252" verticalHuggingPriority="251" text="Count" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kow-GY-xN7" userLabel="Index Label">
                                                 <rect key="frame" x="346.33333333333331" y="0.0" width="53.666666666666686" height="23.666666666666668"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Index"/>
                                                 <fontDescription key="fontDescription" name="YSDisplay-Medium" family="YS Display" pointSize="20"/>
                                                 <color key="textColor" name="YP White"/>
                                                 <nil key="highlightedColor"/>
@@ -48,7 +49,7 @@
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="pXf-MK-nhp" userLabel="Preview Image">
                                         <rect key="frame" x="33" y="43.666666666666629" width="334" height="501"/>
                                         <color key="backgroundColor" name="YP White"/>
-                                        <accessibility key="accessibilityConfiguration">
+                                        <accessibility key="accessibilityConfiguration" identifier="Poster">
                                             <bool key="isElement" value="YES"/>
                                         </accessibility>
                                         <constraints>
@@ -67,6 +68,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="tps-dh-h1b" userLabel="No button">
                                                 <rect key="frame" x="0.0" y="0.0" width="190" height="60"/>
                                                 <color key="backgroundColor" name="YP White"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="No"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="J4I-Wp-dP7"/>
                                                 </constraints>
@@ -87,6 +89,7 @@
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Udt-fg-po2" userLabel="Yes button">
                                                 <rect key="frame" x="210" y="0.0" width="190" height="60"/>
                                                 <color key="backgroundColor" name="YP White"/>
+                                                <accessibility key="accessibilityConfiguration" identifier="Yes"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="60" id="bmt-9s-vNL"/>
                                                 </constraints>
@@ -135,9 +138,9 @@
                         <outlet property="activityIndicator" destination="mEI-sI-sZe" id="YRx-lJ-tkb"/>
                         <outlet property="counterLabel" destination="Kow-GY-xN7" id="XFN-pf-E83"/>
                         <outlet property="imageView" destination="pXf-MK-nhp" id="Aft-AG-hvp"/>
-                        <outlet property="noButton" destination="tps-dh-h1b" id="mjP-W1-BKD"/>
+                        <outlet property="noButton" destination="tps-dh-h1b" id="XWe-0k-lup"/>
                         <outlet property="textLabel" destination="Uat-f7-9zP" id="xNN-0V-hoa"/>
-                        <outlet property="yesButton" destination="Udt-fg-po2" id="gDj-mf-17Q"/>
+                        <outlet property="yesButton" destination="Udt-fg-po2" id="TNk-a7-t7g"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

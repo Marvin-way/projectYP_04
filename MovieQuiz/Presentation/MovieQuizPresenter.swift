@@ -14,15 +14,15 @@ protocol MovieQuizViewControllerProtocol: AnyObject {
     func showLoadingIndicator()
     func hideLoadingIndicator()
     func showNetworkError(message: String)
+    func setButtonsEnabled(_ enabled: Bool)
 }
 
 final class MovieQuizPresenter: QuestionFactoryDelegate {
     
     
-    private let statisticService: StatisticServiceProtocol!
+    private let statisticService: StatisticServiceProtocol
     private var questionFactory: QuestionFactoryProtocol?
     private weak var viewController: MovieQuizViewControllerProtocol?
-
     private var currentQuestion: QuizQuestion?
     private let questionsAmount: Int = 10
     private var currentQuestionIndex: Int = 0
@@ -51,14 +51,13 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
 
     func didReceiveNextQuestion(question: QuizQuestion?) {
-        guard let question = question else {
-            return
-        }
+        guard let question else { return }
 
         currentQuestion = question
         let viewModel = convert(model: question)
         DispatchQueue.main.async { [weak self] in
             self?.viewController?.show(quiz: viewModel)
+            self?.viewController?.setButtonsEnabled(true)
         }
     }
 
@@ -112,7 +111,8 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
         didAnswer(isCorrectAnswer: isCorrect)
 
         viewController?.highlightImageBorder(isCorrectAnswer: isCorrect)
-
+        viewController?.setButtonsEnabled(false)
+        
         DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) { [weak self] in
             guard let self = self else { return }
             self.proceedToNextQuestionOrResults()
@@ -120,6 +120,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
     }
 
     private func proceedToNextQuestionOrResults() {
+        
         if self.isLastQuestion() {
             let text = correctAnswers == self.questionsAmount ?
             "Поздравляем, вы ответили на 10 из 10!" :
@@ -129,7 +130,7 @@ final class MovieQuizPresenter: QuestionFactoryDelegate {
                 title: "Этот раунд окончен!",
                 text: text,
                 buttonText: "Сыграть ещё раз")
-                viewController?.show(quiz: viewModel)
+                self.viewController?.show(quiz: viewModel)
         } else {
             self.switchToNextQuestion()
             questionFactory?.requestNextQuestion()

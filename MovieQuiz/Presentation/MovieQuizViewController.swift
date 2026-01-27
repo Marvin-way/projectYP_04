@@ -18,10 +18,14 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     @IBOutlet weak private var imageView: UIImageView!
     @IBOutlet weak private var textLabel: UILabel!
     @IBOutlet weak private var counterLabel: UILabel!
-    
     @IBOutlet weak var noButton: UIButton!
-    
     @IBOutlet weak var yesButton: UIButton!
+    
+    func setButtonsEnabled(_ enabled: Bool) {
+        yesButton.isEnabled = enabled
+        noButton.isEnabled = enabled
+    }
+    
     func showLoadingIndicator() {
         activityIndicator.isHidden = false
         activityIndicator.startAnimating()
@@ -39,7 +43,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         let model = AlertModel(title: "Ошибка",
                                message: message,
                                buttonText: "Попробовать еще раз") { [weak self] in
-            guard let self = self else { return }
+            guard let self else { return }
             
             self.presenter.restartGame()
         }
@@ -67,6 +71,7 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
         }
     
     func show(quiz step: QuizStepViewModel) {
+        setButtonsEnabled(true)
         imageView.layer.borderColor = UIColor.clear.cgColor
         imageView.image = UIImage(data: step.image) ?? UIImage()
         textLabel.text = step.question
@@ -74,23 +79,24 @@ final class MovieQuizViewController: UIViewController, MovieQuizViewControllerPr
     }
     
     func show(quiz result: QuizResultsViewModel) {
-        
         let message = presenter.makeResultsMessage()
-        
         let alert = UIAlertController(
             title: result.title,
             message: message,
             preferredStyle: .alert)
-            
+
         let action = UIAlertAction(title: result.buttonText, style: .default) { [weak self] _ in
-            guard let self = self else { return }
+            guard let self else { return }
                         
             self.presenter.restartGame()
+            setButtonsEnabled(true)
         }
                 
         alert.addAction(action)
-                
-        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async { [weak self] in
+            self?.present(alert, animated: true, completion: nil)
+        }
+        
     }
 }
 
